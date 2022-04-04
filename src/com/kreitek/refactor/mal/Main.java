@@ -1,41 +1,59 @@
 package com.kreitek.refactor.mal;
 
-class  Main
+import com.kreitek.refactor.mal.Documentos.CIF;
+import com.kreitek.refactor.mal.Documentos.DNI;
+import com.kreitek.refactor.mal.Documentos.NIE;
+
+class Main
 {
-    public static void main(String args[])
-    {
+    public static void main(String args[]) throws Exception {
         System.out.println("=====================");
         System.out.println("Vamos a refactorizar!");
         System.out.println("=====================");
 
+        //Creamos la factoría principal
+        ValidadorFactoryCreator mainFactory = new ValidadorFactoryCreator();
+
+        //Validador de DNI
+        ValidadorFactory factory = mainFactory.getFactory("DNI");
+        ValidadorDocumento validador = factory.getValidador();
+
         // creamos un DNI correcto
-        DNI dniCorrecto = new DNI(TIPODNI.DNI, "11111111H", null);
-        Boolean esValido = (dniCorrecto.validarDNI() == 1);
-        System.out.println( "DNI " + dniCorrecto.numDNI + " es: " + esValido.toString());
+        DNI dniCorrecto = new DNI("11111111H", null);
+        Boolean esValido = (validador.validar(dniCorrecto));
+        System.out.println( "DNI " + dniCorrecto.getNumDocumento() + " es: " + esValido.toString());
 
         // creamos un DNI incorrecto
-        DNI dniIncorrecto01 = new DNI(TIPODNI.DNI, "24324356A", null);
-        Boolean esValido01 = (dniIncorrecto01.validarDNI() == 1);
-        System.out.println( "DNI " + dniIncorrecto01.numDNI + " es: " + esValido01.toString());
+        DNI dniIncorrecto01 = new DNI("24324356A", null);
+        Boolean esValido01 = (validador.validar(dniIncorrecto01));
+        System.out.println( "DNI " + dniIncorrecto01.getNumDocumento() + " es: " + esValido01.toString());
+
+        //Validador de NIE
+        factory = mainFactory.getFactory("NIE");
+        validador = factory.getValidador();
 
         // creamos un NIE correcto
-        DNI nieCorrecto = new DNI(TIPODNI.NIE, "X0932707B", null);
-        Boolean esValidoNie = (nieCorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + nieCorrecto.numDNI + " es: " + esValidoNie.toString());
+        NIE nieCorrecto = new NIE("X0932707B", null);
+        Boolean esValidoNie = (validador.validar(nieCorrecto));
+        System.out.println( "NIE " + nieCorrecto.getNumDocumento() + " es: " + esValidoNie.toString());
 
         // creamos un NIE incorrecto
-        DNI nieIncorrecto = new DNI(TIPODNI.NIE, "Z2691139Z", null);
-        Boolean esValidoNieIncorrecto = (nieIncorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + nieIncorrecto.numDNI + " es: " + esValidoNieIncorrecto.toString());
+        NIE nieIncorrecto = new NIE("Z2691139Z", null);
+        Boolean esValidoNieIncorrecto = (validador.validar(nieIncorrecto));
+        System.out.println( "NIE " + nieIncorrecto.getNumDocumento() + " es: " + esValidoNieIncorrecto.toString());
+
+        //Validador de CIF
+        factory = mainFactory.getFactory("CIF");
+        validador = factory.getValidador();
 
         // creamos un CIF correcto
-        DNI cifCorrecto = new DNI(TIPODNI.CIF, "W9696294I", null);
-        Boolean esValidoCIF = (cifCorrecto.validarDNI() == 1);
-        System.out.println( "CIF " + cifCorrecto.numDNI + " es: " + esValidoCIF.toString());
+        CIF cifCorrecto = new CIF("W9696294I", null);
+        Boolean esValidoCIF = (validador.validar(cifCorrecto));
+        System.out.println( "CIF " + cifCorrecto.getNumDocumento() + " es: " + esValidoCIF.toString());
 
         // creamos un CIF incorrecto
-        DNI cifIncorrecto = new DNI(TIPODNI.CIF, "W9696294A", null);
-        Boolean esValidoCifIncorrecto = (cifIncorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + cifIncorrecto.numDNI + " es: " + esValidoCifIncorrecto.toString());
+        CIF cifIncorrecto = new CIF("W9696294A", null);
+        Boolean esValidoCifIncorrecto = (validador.validar(cifIncorrecto));
+        System.out.println( "NIE " + cifIncorrecto.getNumDocumento() + " es: " + esValidoCifIncorrecto.toString());
     }
 }
